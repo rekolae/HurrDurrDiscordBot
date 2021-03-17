@@ -1,2 +1,6 @@
-# RandomDiscordBot
-Random discord bot, no specific functionality except for randomness
+# HurrDurrDiscordBot
+Random discord bot with no specific functionality, functionality is added based 
+on ideas and suggestions of friends
+
+
+
