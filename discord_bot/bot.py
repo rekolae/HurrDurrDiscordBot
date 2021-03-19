@@ -11,7 +11,7 @@ from datetime import datetime
 import discord
 
 # Local imports
-from discord_bot import version, github_url, jokes
+from discord_bot import VERSION, GITHUB_URL, jokes
 
 
 class HurrDurrBot(discord.Client):
@@ -69,11 +69,11 @@ class HurrDurrBot(discord.Client):
 
             # Tell current bot version
             elif "!version" in message.content.lower():
-                await self.send_message(message.channel, f"Bot version: {version}")
+                await self.send_message(message.channel, f"Bot version: {VERSION}")
 
             # Tell address of the source code for the bot
             elif "!source" in message.content.lower():
-                await self.send_message(message.channel, f"Bot source code repository: {github_url}")
+                await self.send_message(message.channel, f"Bot source code repository: {GITHUB_URL}")
 
             # Tell current uptime
             elif "!uptime" in message.content.lower():
@@ -123,6 +123,17 @@ class HurrDurrBot(discord.Client):
         uptime = f"Bot uptime: {time_delta.days} days {hours} hours {mins} minutes {secs} seconds"
         return uptime
 
+    async def send_shutdown_msg(self):
+        """
+        Send a shutdown message to the info channel if it was defined
+        """
+
+        # Send shutdown message if info channel was defined
+        logging.info("Shutting down")
+        if self._main_channel_id is not None:
+            logging.info("Sending bot logout message")
+            await self.send_message(self.get_channel(self._main_channel_id), f"{self.bot_name} is going offline!")
+
     @staticmethod
     async def send_message(channel, message: str) -> None:
         """
@@ -134,3 +145,14 @@ class HurrDurrBot(discord.Client):
 
         logging.debug("Sending '%s' to '%s'", message, channel)
         await channel.send(message)
+
+    async def close(self):
+        """
+        Overwrite close class method that is called when the Discord client is shutting down
+        """
+
+        # Send shutdown message
+        await self.send_shutdown_msg()
+
+        # Execute the original "close" function
+        await super().close()
