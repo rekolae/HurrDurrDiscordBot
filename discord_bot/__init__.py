@@ -1,5 +1,6 @@
 """
 Module init file
+Emil Rekola <emil.rekola@hotmail.com>
 """
 
 from pathlib import Path

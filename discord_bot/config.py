@@ -1,5 +1,6 @@
 """
 Read config file, env vars and command line args
+Emil Rekola <emil.rekola@hotmail.com>
 """
 
 # Local imports
