@@ -56,7 +56,7 @@ def config_logging(args: Namespace) -> None:
     Configure logging based on the configured verbosity level
     """
 
-    logging_level = getattr(logging, args.log_level)
+    logging_level = getattr(logging, args.verbosity)
     logging.basicConfig(level=logging_level)
 
 
