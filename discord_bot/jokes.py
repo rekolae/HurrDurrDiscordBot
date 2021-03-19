@@ -6,7 +6,7 @@ Emil Rekola <emil.rekola@hotmail.com>
 import random
 
 jokes = {
-    "dad": [
+    "dad jokes": [
         "What did the ocean say to the beach? Nothing, it just waved",
         "I only know 25 letters of the alphabet. I don't know y",
         "What did Baby Corn say to Mama Corn? Where's Pop Corn?",
@@ -24,7 +24,7 @@ jokes = {
         "Why don’t skeletons ever go trick or treating? Because they have no body to go with",
         "Why do vampires seem sick? They’re always coffin"
     ],
-    "dark": [
+    "dark humour": [
         "Why can't orphans play baseball? They don't know where home is",
         "What's yellow and can't swim? A bus full of children",
         "Why do orphans go to church? So they have someone to call father",
@@ -40,7 +40,7 @@ jokes = {
         "What’s blue and doesn’t fit? A dead epileptic",
         "Why was the leper hockey game cancelled? There was a face off in the corner"
     ],
-    "yo Mama": [
+    "yo mama": [
         "Yo mama's so ugly that when she looks out the window she gets arrested for indecent exposure",
         "Yo mama is so fat, I took a picture of her last Christmas and it's still printing",
         "Yo mama is so fat when she got on the scale it said, 'I need your weight not your phone number'",
@@ -125,6 +125,6 @@ def get_random_joke_from_category(category: str) -> str:
         return random.choice(jokes[category])
 
     else:
-        notification = f"Given category {category} was not recognized, here is a random joke:"
+        notification = f"Given category '{category}' was not recognized, here is a random joke:"
         joke = get_random_joke()
         return f"{notification}\n{joke}"

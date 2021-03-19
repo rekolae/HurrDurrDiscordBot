@@ -31,7 +31,7 @@ class HurrDurrBot(discord.Client):
             "!source": "Get address for the source code of the bot",
             "!uptime": "Print current bot uptime",
             "!joke": f"Get a random joke, specify a category by '!joke;category'",
-            "joke categories": f"categories: {','.join(jokes.jokes.keys().capitalize())}"
+            "joke categories": ', '.join([key.capitalize() for key in jokes.jokes.keys()])
         }
 
     async def on_ready(self):
@@ -81,7 +81,6 @@ class HurrDurrBot(discord.Client):
 
             # Tell a joke
             elif "!joke" in message.content.lower():
-                joke_str = None
 
                 if ";" in message.content:
                     category = message.content.lower().split(";")[1]
@@ -99,11 +98,10 @@ class HurrDurrBot(discord.Client):
         :return: Help string
         """
 
-        white_space = 15
         help_string = "Known commands:"
 
         for command, cmd_str in self.known_commands.items():
-            help_string += f"\n{command.ljust(white_space)}: {cmd_str}"
+            help_string += f"\n\t{command}: {cmd_str}"
 
         return help_string
 
