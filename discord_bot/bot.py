@@ -11,7 +11,7 @@ from datetime import datetime
 import discord
 
 # Local imports
-from discord_bot import version, github_url
+from discord_bot import version, github_url, jokes
 
 
 class HurrDurrBot(discord.Client):
@@ -29,7 +29,9 @@ class HurrDurrBot(discord.Client):
             "!ping": "Play some Ping Pong!",
             "!version": "Get current bot version",
             "!source": "Get address for the source code of the bot",
-            "!uptime": "Print current bot uptime"
+            "!uptime": "Print current bot uptime",
+            "!joke": f"Get a random joke, specify a category by '!joke;category'",
+            "joke categories": f"categories: {','.join(jokes.jokes.keys())}"
         }
 
     async def on_ready(self):
@@ -58,24 +60,37 @@ class HurrDurrBot(discord.Client):
             logging.info("Message from %s at %s: %s", message.author, message.channel, message.content)
 
             # Tell known commands
-            if message.content.lower() == "!help":
+            if "!help" in message.content.lower():
                 await self.send_message(message.channel, self.get_supported_commands())
 
             # Play some Ping Pong with another user
-            elif message.content.lower() == "!ping":
+            elif "!ping" in message.content.lower():
                 await self.send_message(message.channel, "Pong")
 
             # Tell current bot version
-            elif message.content.lower() == "!version":
+            elif "!version" in message.content.lower():
                 await self.send_message(message.channel, f"Bot version: {version}")
 
             # Tell address of the source code for the bot
-            elif message.content.lower() == "!source":
+            elif "!source" in message.content.lower():
                 await self.send_message(message.channel, f"Bot source code repository: {github_url}")
 
             # Tell current uptime
-            elif message.content.lower() == "!uptime":
+            elif "!uptime" in message.content.lower():
                 await self.send_message(message.channel, self.get_uptime())
+
+            # Tell a joke
+            elif "!joke" in message.content.lower():
+                joke_str = None
+
+                if ";" in message.content:
+                    category = message.content.lower().split(";")[1]
+                    joke_str = jokes.get_random_joke_from_category(category)
+
+                else:
+                    joke_str = jokes.get_random_joke()
+
+                await self.send_message(message.channel, joke_str)
 
     def get_supported_commands(self) -> str:
         """
@@ -84,7 +99,7 @@ class HurrDurrBot(discord.Client):
         :return: Help string
         """
 
-        white_space = 10
+        white_space = 15
         help_string = "Known commands:"
 
         for command, cmd_str in self.known_commands.items():
