@@ -142,4 +142,4 @@ class HurrDurrBot(discord.Client):
         await self.send_shutdown_msg()
 
         # Execute the original "close" function
-        await super(HurrDurrBot, self).close()
+        await super().close()
