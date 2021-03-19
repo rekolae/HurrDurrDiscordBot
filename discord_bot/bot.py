@@ -11,7 +11,7 @@ from datetime import datetime
 import discord
 
 # Local imports
-from discord_bot import version, github_url
+from discord_bot import VERSION, GITHUB_URL
 
 
 class HurrDurrBot(discord.Client):
@@ -67,11 +67,11 @@ class HurrDurrBot(discord.Client):
 
             # Tell current bot version
             elif message.content.lower() == "!version":
-                await self.send_message(message.channel, f"Bot version: {version}")
+                await self.send_message(message.channel, f"Bot version: {VERSION}")
 
             # Tell address of the source code for the bot
             elif message.content.lower() == "!source":
-                await self.send_message(message.channel, f"Bot source code repository: {github_url}")
+                await self.send_message(message.channel, f"Bot source code repository: {GITHUB_URL}")
 
             # Tell current uptime
             elif message.content.lower() == "!uptime":
