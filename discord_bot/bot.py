@@ -110,6 +110,17 @@ class HurrDurrBot(discord.Client):
         uptime = f"Bot uptime: {time_delta.days} days {hours} hours {mins} minutes {secs} seconds"
         return uptime
 
+    async def send_shutdown_msg(self):
+        """
+        Send a shutdown message to the info channel if it was defined
+        """
+
+        # Send shutdown message if info channel was defined
+        logging.info("Shutting down")
+        if self._main_channel_id is not None:
+            logging.info("Sending bot logout message")
+            await self.send_message(self.get_channel(self._main_channel_id), f"{self.bot_name} is going offline!")
+
     @staticmethod
     async def send_message(channel, message: str) -> None:
         """
