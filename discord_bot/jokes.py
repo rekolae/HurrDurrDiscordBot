@@ -3,8 +3,10 @@ Contains selection of jokes in different categories and functions for serving th
 Emil Rekola <emil.rekola@hotmail.com>
 """
 
+import random
+
 jokes = {
-    "Dad": [
+    "dad": [
         "What did the ocean say to the beach? Nothing, it just waved",
         "I only know 25 letters of the alphabet. I don't know y",
         "What did Baby Corn say to Mama Corn? Where's Pop Corn?",
@@ -22,7 +24,7 @@ jokes = {
         "Why don’t skeletons ever go trick or treating? Because they have no body to go with",
         "Why do vampires seem sick? They’re always coffin"
     ],
-    "Dark": [
+    "dark": [
         "Why can't orphans play baseball? They don't know where home is",
         "What's yellow and can't swim? A bus full of children",
         "Why do orphans go to church? So they have someone to call father",
@@ -38,7 +40,7 @@ jokes = {
         "What’s blue and doesn’t fit? A dead epileptic",
         "Why was the leper hockey game cancelled? There was a face off in the corner"
     ],
-    "Yo Mama": [
+    "yo Mama": [
         "Yo mama's so ugly that when she looks out the window she gets arrested for indecent exposure",
         "Yo mama is so fat, I took a picture of her last Christmas and it's still printing",
         "Yo mama is so fat when she got on the scale it said, 'I need your weight not your phone number'",
@@ -57,7 +59,7 @@ jokes = {
         "Yo mama's so classless, she's a Marxist utopia",
         "Yo mama's so poor, Nigerian princes wire her money"
     ],
-    "Sports": [
+    "sports": [
         "What's the difference between England and a teabag? A teabag could stay in the cup for longer",
         "What is a ghosts favorite position in soccer? Ghoul keeper",
         "Why did the golfer wear two pairs of pants? A: In case he got a hole in one",
@@ -78,7 +80,7 @@ jokes = {
         "What's the object of a Jewish football game? To get the quarterback",
         "Why didn't the dog want to play football? It was a boxer"
     ],
-    "Blonde": [
+    "blonde": [
         "Two blondes fell down a hole. One said, 'It's dark in here isn't it?' "
         "The other replied, 'I don't know; I can't see'",
         "Why can't a blonde dial 911? She can't find the eleven",
@@ -100,9 +102,29 @@ jokes = {
 }
 
 
-def get_random_joke_from_category(category: str) -> str:
-    pass
-
-
 def get_random_joke() -> str:
-    pass
+    """
+    Randomize a joke from any category
+
+    :return: Random joke from random category
+    """
+
+    random_category = random.choice(list(jokes.keys()))
+    return random.choice(jokes[random_category])
+
+
+def get_random_joke_from_category(category: str) -> str:
+    """
+    Randomize a joke from a category. If the given category is invalid -> randomize the category
+
+    :param category: Name of the joke category
+    :return: Random joke
+    """
+
+    if category.lower() in jokes:
+        return random.choice(jokes[category])
+
+    else:
+        notification = f"Given category {category} was not recognized, here is a random joke:"
+        joke = get_random_joke()
+        return f"{notification}\n{joke}"

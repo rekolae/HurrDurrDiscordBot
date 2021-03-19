@@ -31,7 +31,7 @@ class HurrDurrBot(discord.Client):
             "!source": "Get address for the source code of the bot",
             "!uptime": "Print current bot uptime",
             "!joke": f"Get a random joke, specify a category by '!joke;category'",
-            "joke categories": f"categories: {','.join(jokes.jokes.keys())}"
+            "joke categories": f"categories: {','.join(jokes.jokes.keys().capitalize())}"
         }
 
     async def on_ready(self):
