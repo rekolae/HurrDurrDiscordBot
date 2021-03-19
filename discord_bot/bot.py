@@ -132,3 +132,30 @@ class HurrDurrBot(discord.Client):
 
         logging.debug("Sending '%s' to '%s'", message, channel)
         await channel.send(message)
+
+    async def close(self):
+        """
+        Overwrite close class method that is called when the Discord client is shutting down
+        """
+
+        # Send shutdown message
+        await self.send_shutdown_msg()
+
+        # Code below was copied from the original "close" class method from class "discord.Client"
+        if self._closed:
+            return
+
+        await self.http.close()
+        self._closed = True
+
+        for voice in self.voice_clients:
+            try:
+                await voice.disconnect()
+            except Exception:
+                # if an error happens during disconnects, disregard it.
+                pass
+
+        if self.ws is not None and self.ws.open:
+            await self.ws.close(code=1000)
+
+        self._ready.clear()
