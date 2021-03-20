@@ -30,6 +30,7 @@ class HurrDurrBot(discord.Client):
             "!version": "Get current bot version",
             "!source": "Get address for the source code of the bot",
             "!uptime": "Print current bot uptime",
+            "!commitSudoku": "Shamefur dispray",
             "!joke": f"Get a random joke, specify a category by '!joke;category'",
             "joke categories": ', '.join([key.capitalize() for key in jokes.jokes.keys()])
         }
@@ -79,9 +80,15 @@ class HurrDurrBot(discord.Client):
             elif "!uptime" in message.content.lower():
                 await self.send_message(message.channel, self.get_uptime())
 
+            # Tell current uptime
+            elif "!commitsudoku" in message.content.lower():
+                img = "https://i.pinimg.com/originals/b0/7b/70/b07b702182e46735c5925429db1a4492.jpg"
+                await self.send_message(message.channel, img)
+
             # Tell a joke
             elif "!joke" in message.content.lower():
 
+                # Check if category was specified
                 if ";" in message.content:
                     category = message.content.lower().split(";")[1]
                     joke_str = jokes.get_random_joke_from_category(category)
