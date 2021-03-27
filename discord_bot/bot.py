@@ -37,10 +37,6 @@ class HurrDurrBot(commands.Bot):
         if self._main_channel_id is not None:
             logging.debug("Sending login message")
             await self.send_message(self.get_channel(self._main_channel_id), f"{self.bot_name} is online!")
-            cmds = ""
-            for command in self.commands:
-                cmds += f"{command}\n"
-            await self.send_message(self.get_channel(self._main_channel_id), f"Commands: {cmds}")
 
     @staticmethod
     async def send_message(channel, message: str) -> None:
