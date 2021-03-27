@@ -28,9 +28,9 @@ def add_args(parser: ArgParser) -> None:
         "-v",
         "--verbosity",
         help="Application verbosity",
+        type=str.upper,
         choices=["ERROR", "INFO", "DEBUG"],
-        default="INFO",
-        type=str.upper
+        default="INFO"
     )
 
     parser.add_argument(
@@ -47,8 +47,15 @@ def add_args(parser: ArgParser) -> None:
         "--info-channel-id",
         help="Main channel ID, used for notifications when bot comes online or going offline",
         type=int,
-        env_var="DISCORD_MAIN_CHANNEL_ID",
-        required=False,
+        env_var="DISCORD_MAIN_CHANNEL_ID"
+    )
+
+    parser.add_argument(
+        "-p",
+        "--prefix",
+        help="Prefix for bot commands e.g. '.<command>'",
+        type=str,
+        default="."
     )
 
 
