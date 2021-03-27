@@ -128,3 +128,12 @@ def get_random_joke_from_category(category: str) -> str:
         notification = f"Given category '{category}' was not recognized, here is a random joke:"
         joke = get_random_joke()
         return f"{notification}\n{joke}"
+
+
+def get_categories() -> str:
+    """
+    Return a string with all supported joke categories
+    :return: Str with all categories
+    """
+
+    return ", ".join([key.capitalize() for key in jokes.keys()])
