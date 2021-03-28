@@ -14,7 +14,7 @@ from discord_bot.cogs.bot_mixin import BotMixin
 
 class Actions(BotMixin, commands.Cog):
     """
-
+    Bot actions
     """
 
     seppuku_img_url = "https://i.pinimg.com/originals/b0/7b/70/b07b702182e46735c5925429db1a4492.jpg"
@@ -70,11 +70,19 @@ class Actions(BotMixin, commands.Cog):
 
         await ctx.send(self.seppuku_img_url)
 
-    @commands.command(brief='Tell a joke', description=joke_categories)
-    async def joke(self, ctx, category):
+    @commands.command(
+        brief="Tell a random joke",
+        description="Tell a random joke from a category if specified",
+        help=joke_categories
+    )
+    async def joke(self, ctx,  *, category=None):
         """
-        Tell a random joke from a category if specified
+        Tell a random joke
         """
+
+        # Try to remove double/single quotes from the given category
+        if category is not None:
+            category = category.replace("'", "").replace('"', "")
 
         await ctx.send(jokes.get_random_joke_from_category(category))
 
