@@ -1,5 +1,5 @@
 """
-Module containing Discord bot base actions
+Module containing Discord bot base functionality
 Emil Rekola <emil.rekola@hotmail.com>
 """
 
@@ -9,6 +9,7 @@ from datetime import datetime
 
 # 3rd-party imports
 from discord.ext import commands
+from discord.ext.commands import ExtensionNotFound, ExtensionFailed, NoEntryPointError
 
 
 class HurrDurrBot(commands.Bot):
@@ -27,16 +28,24 @@ class HurrDurrBot(commands.Bot):
         Executed when the bot has been initialized and connection has been made to discord
         """
 
-        self.load_extension("discord_bot.cogs.actions")
+        # Try to load extension, exit it there is a problem
+        try:
+            self.load_extension("discord_bot.cogs.actions")
 
-        # Remove the "#xxxx" appendix from the bot username
-        self.bot_name = str(self.user).split("#")[0]
-        logging.info("%s is online!", self.bot_name)
+        except (ExtensionNotFound, ExtensionFailed, NoEntryPointError):
+            logging.exception("Extension load error, exiting!")
+            await self.close(True)
+            raise
 
-        # If info channel was defined
-        if self._main_channel_id is not None:
-            logging.debug("Sending login message")
-            await self.send_message(self.get_channel(self._main_channel_id), f"{self.bot_name} is online!")
+        else:
+            # Remove the "#xxxx" appendix from the bot username
+            self.bot_name = str(self.user).split("#")[0]
+            logging.info("%s is online!", self.bot_name)
+
+            # If info channel was defined
+            if self._main_channel_id is not None:
+                logging.debug("Sending login message")
+                await self.send_message(self.get_channel(self._main_channel_id), f"{self.bot_name} is online!")
 
     @staticmethod
     async def send_message(channel, message: str) -> None:
@@ -57,17 +66,21 @@ class HurrDurrBot(commands.Bot):
 
         # Send shutdown message if info channel was defined
         logging.info("Shutting down")
+
         if self._main_channel_id is not None:
             logging.info("Sending bot logout message")
             await self.send_message(self.get_channel(self._main_channel_id), f"{self.bot_name} is going offline!")
 
-    async def close(self):
+    async def close(self, error=False):
         """
         Overwrite close class method that is called when the Discord client is shutting down
+
+        :param error: True if there was an error and no logout message is needed
         """
 
-        # Send shutdown message
-        await self.send_shutdown_msg()
+        # Send shutdown message if there was no error
+        if not error:
+            await self.send_shutdown_msg()
 
         # Execute the original "close" function
         await super().close()
