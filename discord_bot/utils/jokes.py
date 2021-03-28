@@ -138,7 +138,8 @@ def get_random_joke_from_category(category: str) -> str:
 def get_categories() -> str:
     """
     Return a string with all supported joke categories
+
     :return: Str with all categories
     """
 
-    return ", ".join([key.capitalize() for key in jokes.keys()])
+    return ", ".join([key.capitalize() for key in jokes])
