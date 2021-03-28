@@ -88,4 +88,8 @@ class Actions(BotMixin, commands.Cog):
 
 
 def setup(bot):
+    """
+    Entry point for the 'commands.Bot.load_extension' function for loading extensions
+    """
+
     bot.add_cog(Actions(bot))
