@@ -121,13 +121,18 @@ def get_random_joke_from_category(category: str) -> str:
     :return: Random joke
     """
 
-    if category.lower() in jokes:
-        return random.choice(jokes[category])
+    if category is None:
+        joke = get_random_joke()
+
+    elif category.lower() in jokes:
+        joke = random.choice(jokes[category.lower()])
 
     else:
         notification = f"Given category '{category}' was not recognized, here is a random joke:"
         joke = get_random_joke()
-        return f"{notification}\n{joke}"
+        joke = f"{notification}\n{joke}"
+
+    return joke
 
 
 def get_categories() -> str:
