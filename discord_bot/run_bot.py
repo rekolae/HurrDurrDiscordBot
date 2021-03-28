@@ -18,7 +18,7 @@ def run():
     config.config_logging(args)
 
     # Initialize bot and start it up
-    bot = HurrDurrBot(args.info_channel_id)
+    bot = HurrDurrBot(args.info_channel_id, args.prefix)
     bot.run(args.bot_token)
 
 
