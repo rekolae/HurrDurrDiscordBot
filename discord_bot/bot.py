@@ -17,6 +17,11 @@ class HurrDurrBot(commands.Bot):
     Bot implementation
     """
 
+    extensions = [
+        "actions",
+        "helpers"
+    ]
+
     def __init__(self, channel_id: int, prefix: str):
         super().__init__(command_prefix=prefix)
         self._main_channel_id = channel_id
@@ -30,7 +35,7 @@ class HurrDurrBot(commands.Bot):
 
         # Try to load extension, exit it there is a problem
         try:
-            self.load_extension("discord_bot.cogs.actions")
+            self.load_extensions()
 
         except (ExtensionNotFound, ExtensionFailed, NoEntryPointError):
             logging.exception("Extension load error, exiting!")
@@ -46,6 +51,14 @@ class HurrDurrBot(commands.Bot):
             if self._main_channel_id is not None:
                 logging.debug("Sending login message")
                 await self.send_message(self.get_channel(self._main_channel_id), f"{self.bot_name} is online!")
+
+    def load_extensions(self) -> None:
+        """
+        Try to load known extensions
+        """
+
+        for extension in self.extensions:
+            self.load_extension(f"discord_bot.cogs.{extension}")
 
     @staticmethod
     async def send_message(channel, message: str) -> None:
