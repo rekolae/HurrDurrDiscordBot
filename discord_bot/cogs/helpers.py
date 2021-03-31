@@ -5,9 +5,10 @@ Emil Rekola <emil.rekola@hotmail.com>
 
 # STD imports
 from asyncio import sleep
-from random import random
+from random import random, choice
 
 # 3rd-party imports
+from discord import Embed, Color
 from discord.ext import commands
 
 # Local imports
@@ -22,6 +23,8 @@ class Helpers(BotMixin, commands.Cog):
 
     seppuku_img_url = "https://i.pinimg.com/originals/b0/7b/70/b07b702182e46735c5925429db1a4492.jpg"
     joke_categories = f"Supported categories: {jokes.get_categories()}"
+    i_choose_you = "https://media1.tenor.com/images/84c5b716f0f747acc57a8176e3e6affd/tenor.gif"
+    bamboozel = "https://media.makeameme.org/created/bamboozled.jpg"
 
     @commands.command(aliases=["coinToss"])
     async def flip(self, ctx):
@@ -65,6 +68,42 @@ class Helpers(BotMixin, commands.Cog):
             category = category.replace("'", "").replace('"', "")
 
         await ctx.send(jokes.get_random_joke_from_category(category))
+
+    @commands.command(aliases=["randomChoice", "pickOne"])
+    async def choose(self, ctx, *args):
+        """
+        Make a random choice from given items
+        """
+
+        # Bamboozeled with nothing to choose from
+        if len(args) == 0:
+            embed_msg = Embed(
+                title="Much bamboozel, such confuse",
+                description="Stoopid hooman, you have to give me something to choose from!",
+                color=Color.dark_gold()
+            )
+
+            embed_msg.set_image(url=self.bamboozel)
+
+            await ctx.send(embed=embed_msg)
+
+        # Many choice, such decision
+        elif len(args) == 1:
+            await ctx.send(f"Such a hard choice, I choose '{args[0]}'")
+
+        # Take a random pick
+        else:
+            await ctx.send(f"{len(args)} items given to choose from...\nHmmm...")
+            await sleep(2)
+
+            embed_msg = Embed(
+                title=f"I choose '{choice(args)}'!",
+                color=Color.random()
+            )
+
+            embed_msg.set_image(url=self.i_choose_you)
+
+            await ctx.send(embed=embed_msg)
 
 
 def setup(bot):
